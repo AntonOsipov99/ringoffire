@@ -16,6 +16,7 @@
     height: 35vh;
     width: auto;
     position: absolute;
+    top: -75px;
     }
 }
 
@@ -61,4 +62,11 @@
     position: absolute;
     right: 32px;
     bottom: 32px;
+}
+
+.pin-bottom {
+    position: absolute;
+    bottom: 12px;
+    left: 100px;
+    right: 100px
 }
