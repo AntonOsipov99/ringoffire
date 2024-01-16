@@ -7,14 +7,10 @@ import { Component, OnInit, Input } from '@angular/core';
   templateUrl: './player.component.html',
   styleUrl: './player.component.scss'
 })
-export class PlayerComponent implements OnInit {
+export class PlayerComponent {
 
   @Input() name: any;
   @Input() playerActive: boolean = false;
 
   constructor() {}
-
-  ngOnInit(): void {
-    
-  }
 }
