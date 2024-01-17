@@ -28,8 +28,6 @@ import { ActivatedRoute } from '@angular/router';
 
 export class GameComponent implements OnInit {
   firestore: Firestore = inject(Firestore);
-  pickCardAnimation = false;
-  currentCard: string = '';
   gameId!: any;
   stackEmpty: boolean = false;
   game: Game = new Game();
@@ -39,17 +37,17 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      console.log(params['id']);
       this.gameId = params['id'];
       onSnapshot(
         doc(this.getGamesRef(), params['id']),
         (doc: any) => {
           let gameData = doc.data();
-          console.log('Game update', this.game)
           this.game.currentPlayer = gameData.currentPlayer;
-          this.game.playedCards = gameData.playedCard;
+          this.game.playedCards = gameData.playedCards;
           this.game.players = gameData.players;
           this.game.stack = gameData.stack;
+          this.game.pickCardAnimation = gameData.pickCardAnimation;
+          this.game.currentCard = gameData.currentCard;
         }
       );
     });
@@ -79,18 +77,15 @@ export class GameComponent implements OnInit {
         if (this.game.players.length < 2) {
             this.openDialog();
         } else {
-            if (!this.pickCardAnimation) {
-                this.currentCard = this.game.stack.pop() ?? '';
-                this.pickCardAnimation = true;
-                this.saveGame();
+            if (!this.game.pickCardAnimation) {
+                this.game.currentCard = this.game.stack.pop() ?? '';
+                this.game.pickCardAnimation = true;
                 this.game.currentPlayer++;
                 this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
-                if (this.game.playedCards === undefined) {
-                    this.game.playedCards = [];
-                }
+                this.saveGame();
                 setTimeout(() => {
-                    this.game.playedCards.push(this.currentCard);
-                    this.pickCardAnimation = false;
+                    this.game.playedCards.push(this.game.currentCard);
+                    this.game.pickCardAnimation = false;
                     this.saveGame();
                 }, 800);
             }
@@ -103,9 +98,6 @@ export class GameComponent implements OnInit {
 
   async saveGame() {
     const gameData: any = this.game.toJson();
-    if (gameData.playedCards === undefined) {
-      gameData.playedCards = [];
-    }
     const firebaseData = doc(this.firestore, 'games', `${this.gameId}`);
     await updateDoc(firebaseData, {
       players: gameData.players,
