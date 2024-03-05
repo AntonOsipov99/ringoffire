@@ -9,6 +9,10 @@
     img {
         height: 100vh;
     }
+
+    @media (max-width: 750px) {
+        overflow: hidden;
+    }
 }
 
 .start-label-box {
@@ -19,7 +23,7 @@
     right: 0;
     bottom: 100px;
     img {
-        width: 20vw;
+        width: 300px;
         height: auto;
         &:hover {
             filter: brightness(1.75);

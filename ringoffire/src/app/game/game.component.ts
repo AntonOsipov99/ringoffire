@@ -10,6 +10,7 @@ import { GameInfoComponent } from '../game-info/game-info.component';
 import { Firestore, collection, collectionData, addDoc, doc, onSnapshot, updateDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { PlayerMobileComponent } from '../player-mobile/player-mobile.component';
 
 @Component({
   selector: 'app-game',
@@ -19,7 +20,8 @@ import { ActivatedRoute } from '@angular/router';
     PlayerComponent,
     MatButtonModule,
     MatIconModule,
-    GameInfoComponent
+    GameInfoComponent,
+    PlayerMobileComponent
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
